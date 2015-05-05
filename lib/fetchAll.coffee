@@ -1,6 +1,9 @@
+path = require 'path'
 fs = require 'fs-extra'
 
-exports = (steam)->
+module.exports = (steam, optPath)->
+  item
   while item = steam.read()
     msg = "#{item.title}\n#{item.description}\n\n"
-    fs.appendFileSync (path.join __dirname, '../store/rss.txt'), msg
+    fs.ensureFileSync optPath
+    fs.appendFileSync optPath, msg
