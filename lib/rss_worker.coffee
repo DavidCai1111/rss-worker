@@ -22,27 +22,26 @@ rssWorker.start = (opt) ->
     throw new Error '【rss-worker】urls必须为数组，且长度不能为0'
   if opt.store.type == undefined || opt.store.type != 'mongo'
     opt.store.type = 'fs'
-    opt.store.path = path.join __dirname, '../store/rss.txt'
+    opt.store.dist = path.join __dirname, '../store/rss.txt'
+  if opt.store.type == 'fs'
+    opt.store.dist = path.normalize opt.store.dist
 
   persistence = persistenceFactory.get opt.store.type
-  setInterval this.fetchAll, 1000 * 5, opt.urls, persistence
+  setInterval this.fetchAll, 1000 * 5, opt.urls, persistence, opt.store.dist
 
-rssWorker.fetchAll = (urls, persistence) ->
+rssWorker.fetchAll = (urls, persistence , dist) ->
   ep = new EventProxy()
   ep.after 'fetch_done', urls.length, (resultArr) ->
-    #tmp
-    filePath = path.join __dirname, '../store/rss.txt'
-
     console.log "result_arr.length: #{resultArr.length}"
 
     _formatted = tools.formatMsgToString resultArr
 
     if rssWorker.inited == false
       rssWorker.inited = true
-      persistence.save filePath, _formatted.content
+      persistence.save dist, _formatted.content
       console.log "首次写入完毕！"
     else if _formatted.isUpdate
-      persistence.update filePath, _formatted.content
+      persistence.update dist, _formatted.content
       console.log "更新完毕！"
     else
       console.log "无更新，结束"
