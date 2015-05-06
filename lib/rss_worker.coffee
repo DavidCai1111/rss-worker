@@ -14,9 +14,10 @@ moment.locale 'zh_cn'
 rssWorker = {}
 rssWorker.lastUpdate = null
 rssWorker.inited = false
+rssWorker.hasTimeout = false
 
 rssWorker.start = (opt) ->
-  #参数检查
+#参数检查
   if !util.isArray opt.urls || opt.urls.length == 0
     throw new Error '【rss-worker】urls必须为数组，且长度不能为0'
   if opt.store.type == undefined || opt.store.type != 'mongo'
@@ -26,13 +27,12 @@ rssWorker.start = (opt) ->
     opt.store.dist = path.normalize opt.store.dist
 
   persistence = persistenceFactory.get opt.store.type
-  setInterval this.fetchAll, 1000 * 10, opt.urls, persistence, opt.store.dist
 
-rssWorker.fetchAll = (urls, persistence , dist) ->
+  this.fetchAll opt.urls, persistence, opt.store.dist
+
+rssWorker.fetchAll = (urls, persistence, dist) ->
   ep = new EventProxy()
   ep.after 'fetch_done', urls.length, (resultArr) ->
-    console.log "result_arr.length: #{resultArr.length}"
-
     _formatted = tools.formatMsgToString resultArr
 
     if rssWorker.inited == false
@@ -44,6 +44,9 @@ rssWorker.fetchAll = (urls, persistence , dist) ->
       console.log "更新完毕！"
     else
       console.log "无更新，结束"
+
+    #防止并行任务组发生重叠
+    setTimeout rssWorker.fetchAll, 1000 * 10, urls, persistence, dist
 
   for url in urls
     rssWorker.fetchOne url, ep
