@@ -7,7 +7,7 @@ msg_tool = {}
 msg_tool.formatMsgToString = (result_arr) ->
   _output = [];
   _stringResult =
-    content: ''
+    content: []
     isUpdate: false
 
   for msg_arr in result_arr
@@ -26,7 +26,7 @@ msg_tool.formatMsgToString = (result_arr) ->
       return 0
 
   for _rss in _output
-    _stringResult.content += _rss.content
+    _stringResult.content.push _rss.content
 
   _stringResult
 

@@ -14,23 +14,25 @@ moment.locale 'zh_cn'
 rssWorker = {}
 rssWorker.lastUpdate = null
 rssWorker.inited = false
-rssWorker.hasTimeout = false
 
 rssWorker.start = (opt) ->
-#参数检查
   if !util.isArray opt.urls || opt.urls.length == 0
     throw new Error '【rss-worker】urls必须为数组，且长度不能为0'
-  if opt.store.type == undefined || opt.store.type != 'mongo'
-    opt.store.type = 'fs'
-    opt.store.dist = path.join __dirname, '../store/rss.txt'
+  if opt.timedout == undefined || typeof opt.timedout != 'number' || opt.timedout < 0
+    opt.timedout = 5 #默认为5秒间隔
+  if opt.store == undefined || (opt.store.type != 'mongodb' && opt.store.type != 'fs')
+    opt.store = {}
+    opt.store.type = 'fs' #默认存储方式为fs
+    opt.store.dist = path.join 'store/rss.txt'
+
   if opt.store.type == 'fs'
     opt.store.dist = path.normalize opt.store.dist
 
-  persistence = persistenceFactory.get opt.store.type
+  persistence = persistenceFactory.get opt.store.type,opt.store.dist
 
-  this.fetchAll opt.urls, persistence, opt.store.dist
+  this.fetchAll opt.urls, persistence, opt.store.dist, opt.timeout
 
-rssWorker.fetchAll = (urls, persistence, dist) ->
+rssWorker.fetchAll = (urls, persistence, dist, timeout) ->
   ep = new EventProxy()
   ep.after 'fetch_done', urls.length, (resultArr) ->
     _formatted = tools.formatMsgToString resultArr
@@ -38,15 +40,15 @@ rssWorker.fetchAll = (urls, persistence, dist) ->
     if rssWorker.inited == false
       rssWorker.inited = true
       persistence.save dist, _formatted.content
-      console.log "首次写入完毕！"
+      console.log "【rss-worker】首次写入完毕！"
     else if _formatted.isUpdate
       persistence.update dist, _formatted.content
-      console.log "更新完毕！"
+      console.log "【rss-worker】更新完毕！"
     else
-      console.log "无更新，结束"
+      console.log "【rss-worker】无更新，结束"
 
-    #防止并行任务组发生重叠
-    setTimeout rssWorker.fetchAll, 1000 * 10, urls, persistence, dist
+    #替代setInterval防止并行任务组发生重叠
+    setTimeout rssWorker.fetchAll, 1000 * timeout, urls, persistence, dist, timeout
 
   for url in urls
     rssWorker.fetchOne url, ep

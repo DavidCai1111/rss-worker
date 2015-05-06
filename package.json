@@ -17,6 +17,7 @@
     "feedparser": "^1.0.1",
     "fs-extra": "^0.18.2",
     "moment": "^2.10.2",
+    "mongoose": "^4.0.2",
     "node-readability": "^1.0.1",
     "superagent": "^1.2.0"
   }
