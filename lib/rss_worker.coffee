@@ -12,7 +12,6 @@ persistenceFactory = require './persistence'
 moment.locale 'zh_cn'
 
 rssWorker = {}
-#标记
 rssWorker.lastUpdate = null
 rssWorker.inited = false
 
@@ -27,7 +26,7 @@ rssWorker.start = (opt) ->
     opt.store.dist = path.normalize opt.store.dist
 
   persistence = persistenceFactory.get opt.store.type
-  setInterval this.fetchAll, 1000 * 5, opt.urls, persistence, opt.store.dist
+  setInterval this.fetchAll, 1000 * 10, opt.urls, persistence, opt.store.dist
 
 rssWorker.fetchAll = (urls, persistence , dist) ->
   ep = new EventProxy()
@@ -62,7 +61,7 @@ rssWorker.fetchOne = (url, ep) ->
   feedParser.on 'readable', () ->
     steam = this
     if not rssWorker.inited
-      fetchAll steam, _fetchResult
+      fetchAll steam, _fetchResult, rssWorker
     else
       doUpdate steam, _fetchResult, rssWorker
 

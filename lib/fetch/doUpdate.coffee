@@ -12,11 +12,11 @@ module.exports = (steam, result_arr, ctx) ->
   while item = steam.read()
     _hasUpdate = true
     _lastUpdate = item.date
-    if ctx.lastUpdate == null
-      ctx.lastUpdate = _lastUpdate
 
     #若有更新则抓取，否则结束
     if ctx.lastUpdate < _lastUpdate
+      console.log "【rss-worker】检测到更新 ctx.lastUpdate #{ctx.lastUpdate}:"
+      console.log "【rss-worker】检测到更新 _lastUpdate #{_lastUpdate}:"
       ctx.lastUpdate = _lastUpdate
       _hasUpdate = true
       console.log "【rss-worker】检测到更新"
