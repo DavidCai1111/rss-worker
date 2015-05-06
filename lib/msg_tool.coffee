@@ -11,7 +11,6 @@ msg_tool.formatMsgToString = (result_arr) ->
     isUpdate: false
 
   for msg_arr in result_arr
-    console.log "msg_arr.length : #{msg_arr.length}"
     if msg_arr.isUpdate == true
       _stringResult.isUpdate = true
     for _item in msg_arr

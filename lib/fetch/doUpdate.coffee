@@ -15,8 +15,6 @@ module.exports = (steam, result_arr, ctx) ->
 
     #若有更新则抓取，否则结束
     if ctx.lastUpdate < _lastUpdate
-      console.log "【rss-worker】检测到更新 ctx.lastUpdate #{ctx.lastUpdate}:"
-      console.log "【rss-worker】检测到更新 _lastUpdate #{_lastUpdate}:"
       ctx.lastUpdate = _lastUpdate
       _hasUpdate = true
       console.log "【rss-worker】检测到更新"

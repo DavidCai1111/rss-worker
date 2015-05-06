@@ -16,6 +16,7 @@ rssWorker.lastUpdate = null
 rssWorker.inited = false
 
 rssWorker.start = (opt) ->
+  this.refresh()
   if !util.isArray opt.urls || opt.urls.length == 0
     throw new Error '【rss-worker】urls必须为数组，且长度不能为0'
   if opt.timedout == undefined || typeof opt.timedout != 'number' || opt.timedout < 0
@@ -75,5 +76,9 @@ rssWorker.fetchOne = (url, ep) ->
     if _fetchResult.length != 0
       _fetchResult.isUpdate = true
     ep.emit 'fetch_done', _fetchResult
+
+rssWorker.refresh = () ->
+  this.lastUpdate = null
+  this.inited = false
 
 module.exports = rssWorker
