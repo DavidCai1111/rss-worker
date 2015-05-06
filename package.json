@@ -4,7 +4,7 @@
   "description": "rss-worker",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly"
+    "test": "gulp && ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly"
   },
   "author": "DavidCai",
   "license": "MIT",
@@ -22,5 +22,10 @@
     "mongoose": "^4.0.2",
     "should": "^6.0.1",
     "superagent": "^1.2.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-coffee": "^2.3.1",
+    "gulp-coffeelint": "^0.4.0"
   }
 }
