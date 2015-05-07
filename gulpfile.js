@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var coffee = require('gulp-coffee');
 var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
+var fs = require('fs-extra');
 
 gulp.task('compile_coffee', function () {
   gulp.src(['**/*.coffee', 'index.coffee', '!node_modules/**/*.coffee'])
@@ -30,5 +31,6 @@ gulp.task('test', ['compile_coffee'], function (cb) {
 });
 
 gulp.task('default', ['compile_coffee'], function () {
+  fs.copySync('./test/rss_test','./build/test/rss_test');
   gulp.start('test');
 });
