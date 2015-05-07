@@ -1,3 +1,3 @@
-rssWorker = require './lib/rss_worker'
+RssWorker = require './lib/RssWorker'
 
-module.exports = rssWorker
+module.exports = RssWorker

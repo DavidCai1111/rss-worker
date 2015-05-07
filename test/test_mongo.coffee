@@ -1,7 +1,7 @@
 path = require 'path'
 should = require 'should'
 mongoose = require 'mongoose'
-rssWorker = require '../index'
+RssWorker = require '../index'
 Msg = require '../lib/persistence/mongo/model'
 
 describe 'test rss-worker', () ->
@@ -20,14 +20,22 @@ describe 'test rss-worker', () ->
         type: 'mongodb'
         dist: 'mongodb://localhost:27017/rss_worker'
       timeout: 5
-    rssWorker.start opt
 
-    validation = () ->
-      Msg.find {}, (err, msgs) ->
-        if err
-          throw new Error err
-        console.log "length : #{msgs.length}"
-        msgs.should.have.length 60
-        done()
+    test_mongo = () ->
+      rss_worker = new RssWorker opt
+      rss_worker.start()
 
-    setTimeout validation, 10 * 1000
+      validation = () ->
+        rss_worker.forceToEnd()
+        Msg.find {}, (err, msgs) ->
+          if err
+            throw new Error err
+          console.log "length : #{msgs.length}"
+          msgs.should.have.length 60
+          done()
+
+      setTimeout validation, 10 * 1000
+
+    setTimeout test_mongo, 10 * 1000
+
+

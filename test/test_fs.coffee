@@ -1,7 +1,7 @@
 path = require 'path'
 should = require 'should'
 fs = require 'fs-extra'
-rssWorker = require '../index'
+RssWorker = require '../index'
 
 describe 'test rss-worker', () ->
   this.timeout 1000 * 60
@@ -21,9 +21,11 @@ describe 'test rss-worker', () ->
         dist: _path
       timeout: 5
 
-    rssWorker.start opt
+    rss_worker = new RssWorker opt
+    rss_worker.start()
 
     validation = () ->
+      rss_worker.forceToEnd()
       fs.ensureFileSync _path
       _text = fs.readFileSync(_path).toString()
       _text.should.containEql 'DavidCai1993 starred tjworks/docs'
