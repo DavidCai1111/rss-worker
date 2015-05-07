@@ -13,6 +13,7 @@ moment.locale 'zh_cn'
 
 class RssWorker
   constructor: (@opt) ->
+    this.feedParser = null
     this.lastUpdate = null
     this.inited = false
     this.end = false
@@ -67,6 +68,7 @@ class RssWorker
 
     feedParser.on 'error', (err) ->
       console.error err
+      process.exit 0
 
     feedParser.on 'readable', () ->
       steam = this

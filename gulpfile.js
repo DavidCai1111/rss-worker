@@ -11,7 +11,7 @@ gulp.task('compile_coffee', function () {
 
 gulp.task('test', ['compile_coffee'], function (cb) {
   //确保coffee已被编译
-  setTimeout(test, 1000 * 5);
+  setTimeout(test, 1000 * 3);
 
   function test() {
     gulp.src(['build/lib/**/*.js', 'build/index.js'])
@@ -21,7 +21,10 @@ gulp.task('test', ['compile_coffee'], function (cb) {
         gulp.src(['build/test/*.js'])
           .pipe(mocha())
           .pipe(istanbul.writeReports())
-          .on('end', cb)
+          .on('end', function () {
+            cb();
+            process.exit(0);
+          })
       })
   }
 });
