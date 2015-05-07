@@ -1,21 +1,36 @@
 path = require 'path'
+http = require 'http'
 should = require 'should'
 mongoose = require 'mongoose'
+fs = require 'fs-extra'
 RssWorker = require '../index'
 Msg = require '../lib/persistence/mongo/model'
+
+count = 0
 
 describe 'test rss-worker', () ->
   this.timeout 1000 * 60
 
+  before () ->
+    http.createServer (req, res) ->
+      res.writeHead 200, {'Content-Type': 'text/plain'}
+      if count == 0
+        rss = fs.readFileSync path.join __dirname,'./rss_test/before.xml'
+        count += 1
+      else
+        rss = fs.readFileSync path.join __dirname,'./rss_test/after.xml'
+      res.end rss
+    .listen 3789, '127.0.0.1'
+
+
+  after (done) ->
+    Msg.remove {},() ->
+      done()
+
   it 'test mongodb', (done) ->
-    before () ->
-      mongoose.connect 'mongodb://localhost:27017/rss_worker', () ->
-        Msg.remove {}
-    after () ->
-      Msg.remove {}
 
     opt =
-      urls: ['https://github.com/DavidCai1993.atom', 'https://github.com/alsotang.atom']
+      urls: ['http://127.0.0.1:3789']
       store:
         type: 'mongodb'
         dist: 'mongodb://localhost:27017/rss_worker'
@@ -31,10 +46,10 @@ describe 'test rss-worker', () ->
           if err
             throw new Error err
           console.log "length : #{msgs.length}"
-          msgs.should.have.length 60
+          msgs.should.have.length 30
           done()
 
-      setTimeout validation, 10 * 1000
+      setTimeout validation, 15 * 1000
 
     setTimeout test_mongo, 10 * 1000
 
