@@ -3,7 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/DavidCai1993/rss-worker/badge.svg)](https://coveralls.io/r/DavidCai1993/rss-worker)
 
 ## 简介
-rss-worker是一个持久的可配的rss爬虫。支持多URL的并行爬取，并且会将所有条目按时间顺序进行保存，保存格式为`"时间\n标题\n内容\n\n"`，支持的保存方式有fs与mongodb。
+rss-worker是一个持久的可配的rss爬虫。支持多URL的并行爬取，并且会将所有条目按时间顺序进行保存，保存格式为`"时间\n标题\n内容\n\n"`，支持的保存方式有`fs`与`mongodb`。
 
 ## 使用
 
