@@ -35,7 +35,9 @@ var rssWorker = new RssWorker(opt);
 rssWorker.start();
 ```
 
-一个抓取`https://github.com/alsotang.atom`，`https://cnodejs.org/rss`，`http://segmentfault.com/feeds/blogs`内容24小时的输出（2015/5/6 19:30至2015/5/7 19:30 ，地址是随手挑的...←_←）：[这里][1]
+一个抓取`https://github.com/alsotang.atom`，`https://cnodejs.org/rss`，`http://segmentfault.com/feeds/blogs`内容24小时的输出（2015/5/6 19:30至2015/5/7 19:30 ，地址是随手挑的...←_←）：
+
+[点这里][1]
 
 ### API
 
