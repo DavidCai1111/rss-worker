@@ -21,8 +21,8 @@ class RssWorker
   start: () ->
     if !util.isArray @opt.urls || @opt.urls.length == 0
       throw new Error '【rss-worker】urls必须为数组，且长度不能为0'
-    if @opt.timedout == undefined || typeof @opt.timedout != 'number' || @opt.timedout < 0
-      @opt.timedout = 5 #默认为5秒间隔
+    if @opt.timeout == undefined || typeof @opt.timeout != 'number' || @opt.timeout < 0
+      @opt.timeout = 60 #默认为60秒间隔
     if @opt.store == undefined || (@opt.store.type != 'mongodb' && @opt.store.type != 'fs')
       @opt.store = {}
       @opt.store.type = 'fs' #默认存储方式为fs

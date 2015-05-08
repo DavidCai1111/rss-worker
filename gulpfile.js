@@ -31,6 +31,6 @@ gulp.task('test', ['compile_coffee'], function (cb) {
 });
 
 gulp.task('default', ['compile_coffee'], function () {
-  fs.copySync('./test/rss_test','./build/test/rss_test');
+  fs.copySync('./test/rss_test', './build/test/rss_test');
   gulp.start('test');
 });
