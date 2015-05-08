@@ -13,7 +13,6 @@ gulp.task('compile_coffee', function () {
 gulp.task('test', ['compile_coffee'], function (cb) {
   //确保coffee已被编译
   setTimeout(test, 1000 * 3);
-
   function test() {
     gulp.src(['build/lib/**/*.js', 'build/index.js'])
       .pipe(istanbul())

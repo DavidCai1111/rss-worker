@@ -27,7 +27,6 @@ class RssWorker
       @opt.store = {}
       @opt.store.type = 'fs' #默认存储方式为fs
       @opt.store.dist = path.join 'store/rss.txt'
-
     if @opt.store.type == 'fs'
       @opt.store.dist = path.normalize @opt.store.dist
 
@@ -35,6 +34,7 @@ class RssWorker
     this.fetchAll @opt.urls, persistence, @opt.store.dist, @opt.timeout
 
   fetchAll: (urls, persistence, dist, timeout) ->
+    console.log "【rss-worker】开始抓取！"
     ctx = this
     ep = new EventProxy()
     ep.after 'fetch_done', urls.length, (resultArr) ->
@@ -42,18 +42,14 @@ class RssWorker
       if ctx.inited == false
         ctx.inited = true
         persistence.save dist, _formatted.content
-        console.log "【rss-worker】首次写入完毕！"
       else if _formatted.isUpdate
         persistence.update dist, _formatted.content
-        console.log "【rss-worker】更新完毕！"
-      else
-        console.log "【rss-worker】无更新，结束"
 
       if not ctx.end
         #替代setInterval防止并行任务组发生重叠
         setTimeout ctx.fetchAll.bind(ctx), 1000 * timeout, urls, persistence, dist, timeout
       else
-        console.log '结束！'
+        console.log "【rss-worker】结束抓取！"
 
     for url in urls
       ctx.fetchOne url, ep
