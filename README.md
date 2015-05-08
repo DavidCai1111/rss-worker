@@ -27,7 +27,8 @@ var opt = {
   store: {
     type: 'fs',
     dist: './store/rss.txt'
-  }
+  },
+  timeout: 10
 };
 
 var rssWorker = new RssWorker(opt);
