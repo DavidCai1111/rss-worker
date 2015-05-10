@@ -31,7 +31,7 @@ class RssWorker
       @opt.store.dist = path.normalize @opt.store.dist
 
     persistence = persistenceFactory.get @opt.store.type, @opt.store.dist
-    this.fetchAll @opt.urls, persistence, @opt.store.dist, @opt.timeout
+    @fetchAll @opt.urls, persistence, @opt.store.dist, @opt.timeout
 
   fetchAll: (urls, persistence, dist, timeout) ->
     console.log "【rss-worker】开始抓取！"
