@@ -13,10 +13,10 @@ moment.locale 'zh_cn'
 
 class RssWorker
   constructor: (@opt) ->
-    this.feedParser = null
-    this.lastUpdate = null
-    this.inited = false
-    this.end = false
+    @feedParser = null
+    @lastUpdate = null
+    @inited = false
+    @end = false
 
   start: () ->
     if !util.isArray @opt.urls || @opt.urls.length == 0
@@ -80,7 +80,6 @@ class RssWorker
       ep.emit 'fetch_done', _fetchResult
 
   forceToEnd: () ->
-    this.end = true
-
+    @end = true
 
 exports = module.exports = RssWorker

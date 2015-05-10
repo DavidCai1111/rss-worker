@@ -11,8 +11,8 @@ msg_tool.formatMsgToString = (result_arr) ->
     isUpdate: false
 
   for msg_arr in result_arr
-    if msg_arr.isUpdate == true
-      _stringResult.isUpdate = true
+    if msg_arr.isUpdate == true then _stringResult.isUpdate = true
+
     for _item in msg_arr
       _output.push _item
 
