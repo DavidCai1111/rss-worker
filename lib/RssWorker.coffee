@@ -13,12 +13,6 @@ moment.locale 'zh_cn'
 
 class RssWorker
   constructor: (@opt) ->
-    @feedParser = null
-    @lastUpdate = null
-    @inited = false
-    @end = false
-
-  start: () ->
     if !util.isArray @opt.urls || @opt.urls.length == 0
       throw new Error '【rss-worker】urls必须为数组，且长度不能为0'
     if @opt.timeout == undefined || typeof @opt.timeout != 'number' || @opt.timeout < 0
@@ -30,8 +24,14 @@ class RssWorker
     if @opt.store.type == 'fs'
       @opt.store.dist = path.normalize @opt.store.dist
 
-    persistence = persistenceFactory.get @opt.store.type, @opt.store.dist
-    @fetchAll @opt.urls, persistence, @opt.store.dist, @opt.timeout
+    @persistence = persistenceFactory.get @opt.store.type, @opt.store.dist
+    @feedParser = null
+    @lastUpdate = null
+    @inited = false
+    @end = false
+
+  start: () ->
+    @fetchAll @opt.urls, @persistence, @opt.store.dist, @opt.timeout
 
   fetchAll: (urls, persistence, dist, timeout) ->
     console.log "【rss-worker】开始抓取！"
@@ -41,9 +41,9 @@ class RssWorker
       _formatted = tools.formatMsgToString resultArr
       if ctx.inited == false
         ctx.inited = true
-        persistence.save dist, _formatted.content
+        ctx.persistence.save dist, _formatted.content
       else if _formatted.isUpdate
-        persistence.update dist, _formatted.content
+        ctx.persistence.update dist, _formatted.content
 
       if not ctx.end
         #替代setInterval防止并行任务组发生重叠
