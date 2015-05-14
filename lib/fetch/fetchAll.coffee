@@ -6,18 +6,17 @@ moment = require 'moment'
 #
 #@参数steam ：输入流
 #@参数result_arr ： 储存结果的数组
-#@参数ctx ： 上下文
-module.exports = (steam, result_arr, ctx) ->
+module.exports = (steam, result_arr) ->
   item
   while item = steam.read()
     _lastUpdate = item.date
 
-    if ctx.lastUpdate == null
-      ctx.lastUpdate = _lastUpdate
+    if @lastUpdate == null
+      @lastUpdate = _lastUpdate
 
     #确保是并行任务中的最后更新时间
-    if ctx.lastUpdate < _lastUpdate
-      ctx.lastUpdate = _lastUpdate
+    if @lastUpdate < _lastUpdate
+      @lastUpdate = _lastUpdate
 
     _msg =
       date: moment item.date

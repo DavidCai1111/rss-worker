@@ -6,16 +6,15 @@ moment = require 'moment'
 #
 #@参数steam ：输入流
 #@参数result_arr ： 储存结果的数组
-#@参数ctx ： 上下文
-module.exports = (steam, result_arr, ctx) ->
+module.exports = (steam, result_arr) ->
   item
   while item = steam.read()
     _hasUpdate = true
     _lastUpdate = item.date
 
     #若有更新则抓取，否则结束
-    if ctx.lastUpdate < _lastUpdate
-      ctx.lastUpdate = _lastUpdate
+    if @lastUpdate < _lastUpdate
+      @lastUpdate = _lastUpdate
       _hasUpdate = true
       console.log "【rss-worker】检测到更新"
     else
