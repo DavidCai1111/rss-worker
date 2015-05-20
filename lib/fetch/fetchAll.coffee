@@ -5,9 +5,8 @@ moment = require 'moment'
 #获取所有内容，用于第一次获取
 #
 #@参数steam ：输入流
-#@参数result_arr ： 储存结果的数组
+#@参数resultArr ： 储存结果的数组
 module.exports = (steam, resultArr) ->
-  item
   while item = steam.read()
     _lastUpdate = item.date
 

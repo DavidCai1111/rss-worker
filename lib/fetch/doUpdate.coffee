@@ -5,9 +5,8 @@ moment = require 'moment'
 #用于检查并更新RSS
 #
 #@参数steam ：输入流
-#@参数result_arr ： 储存结果的数组
+#@参数resultArr ： 储存结果的数组
 module.exports = (steam, resultArr) ->
-  item
   while item = steam.read()
     hasUpdate = true
     _lastUpdate = item.date

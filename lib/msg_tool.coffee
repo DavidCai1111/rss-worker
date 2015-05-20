@@ -2,7 +2,7 @@ msg_tool = {}
 
 #formatMsgToString
 #
-#@参数result_arr ：所有并行的爬虫任务所获取的结果数组
+#@参数resultArr ：所有并行的爬虫任务所获取的结果数组
 #@返回 ：格式化好并排序好的结果字符串
 msg_tool.formatMsgToString = (resultArr) ->
   output = [];
@@ -12,7 +12,6 @@ msg_tool.formatMsgToString = (resultArr) ->
 
   for msgArr in resultArr
     if msgArr.isUpdate == true then stringResult.isUpdate = true
-
     for item in msgArr
       output.push item
 
