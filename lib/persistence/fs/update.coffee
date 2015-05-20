@@ -2,9 +2,9 @@ fs = require 'fs-extra'
 path = require 'path'
 
 module.exports = (filePath, content) ->
-  _content = ""
+  outputContent = ""
   for msg in content
-    _content += msg
+    outputContent += msg
 
   fileDir = path.dirname filePath
   tmpFilePath = path.join fileDir, '/tmp.txt'
@@ -12,7 +12,7 @@ module.exports = (filePath, content) ->
   fs.ensureFileSync filePath
   fs.ensureFileSync tmpFilePath
   oldMsg = fs.readFileSync filePath
-  fs.appendFileSync tmpFilePath, _content
+  fs.appendFileSync tmpFilePath, outputContent
   fs.appendFileSync tmpFilePath, oldMsg
   fs.removeSync filePath
   fs.rename tmpFilePath, filePath

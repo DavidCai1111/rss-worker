@@ -37,12 +37,12 @@ class RssWorker
     console.log "【rss-worker】开始抓取！"
     ep = new EventProxy()
     ep.after 'fetch_done', urls.length, (resultArr) =>
-      _formatted = tools.formatMsgToString resultArr
+      formatted = tools.formatMsgToString resultArr
       if @inited == false
         @inited = true
-        @persistence.save dist, _formatted.content
-      else if _formatted.isUpdate
-        @persistence.update dist, _formatted.content
+        @persistence.save dist, formatted.content
+      else if formatted.isUpdate
+        @persistence.update dist, formatted.content
 
       if not @end
         setTimeout @fetchAll.bind(@), 1000 * timeout, urls, persistence, dist, timeout
@@ -54,7 +54,7 @@ class RssWorker
 
   fetchOne: (url, ep) ->
     timeStart = moment()
-    _fetchResult = []
+    fetchResult = []
     feedParser = new FeedParser()
     req = request.get url
     req.pipe feedParser
@@ -67,15 +67,15 @@ class RssWorker
     feedParser.on 'readable', () ->
       steam = this
       if not ctx.inited
-        fetch.call ctx, steam, _fetchResult
+        fetch.call ctx, steam, fetchResult
       else
-        doUpdate.call ctx, steam, _fetchResult
+        doUpdate.call ctx, steam, fetchResult
 
     feedParser.on 'end', () ->
-      console.log "【rss-worker】<#{url}> 完成了一次爬取，爬取的内容条数为#{_fetchResult.length}，从#{timeStart.format 'YYYY年MMMMDoa h:mm:ss'} 到 #{moment().format 'YYYY年MMMMDoa h:mm:ss'},花费了#{(moment() - timeStart) / 1000}秒"
-      if _fetchResult.length != 0
-        _fetchResult.isUpdate = true
-      ep.emit 'fetch_done', _fetchResult
+      console.log "【rss-worker】<#{url}> 完成了一次爬取，爬取的内容条数为#{fetchResult.length}，从#{timeStart.format 'YYYY年MMMMDoa h:mm:ss'} 到 #{moment().format 'YYYY年MMMMDoa h:mm:ss'},花费了#{(moment() - timeStart) / 1000}秒"
+      if fetchResult.length != 0
+        fetchResult.isUpdate = true
+      ep.emit 'fetch_done', fetchResult
 
   forceToEnd: () ->
     @end = true

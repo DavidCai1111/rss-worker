@@ -6,7 +6,7 @@ moment = require 'moment'
 #
 #@参数steam ：输入流
 #@参数result_arr ： 储存结果的数组
-module.exports = (steam, result_arr) ->
+module.exports = (steam, resultArr) ->
   item
   while item = steam.read()
     _lastUpdate = item.date
@@ -18,7 +18,7 @@ module.exports = (steam, result_arr) ->
     if @lastUpdate < _lastUpdate
       @lastUpdate = _lastUpdate
 
-    _msg =
+    msg =
       date: moment item.date
       content: "#{moment(item.date).format 'YYYY年MMMMDoa h:mm:ss'}\n#{item.title}\n#{item.description}\n\n"
-    result_arr.push _msg
+    resultArr.push msg

@@ -1,8 +1,8 @@
 fs = require 'fs-extra'
 
 module.exports = (path, content) ->
-  _content = ""
+  outputContent = ""
   for msg in content
-    _content += msg
+    outputContent += msg
   fs.ensureFileSync path
-  fs.appendFileSync path, _content
+  fs.appendFileSync path, outputContent
