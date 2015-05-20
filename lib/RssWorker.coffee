@@ -63,9 +63,9 @@ class RssWorker
       console.error err
       process.exit 0
 
-    ctx = this
+    ctx = @
     feedParser.on 'readable', () ->
-      steam = this
+      steam = @
       if not ctx.inited
         fetch.call ctx, steam, fetchResult
       else
