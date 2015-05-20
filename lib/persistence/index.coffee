@@ -13,7 +13,7 @@ mongodb.save = mongo_save
 mongodb.update = mongo_update
 
 factory = {}
-factory.get = (type,url) ->
+factory.get = (type, url) ->
   if type == 'fs'
     return fs
   else if type == 'mongodb'

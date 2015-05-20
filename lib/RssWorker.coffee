@@ -36,7 +36,7 @@ class RssWorker
   fetchAll: (urls, persistence, dist, timeout) ->
     console.log "【rss-worker】开始抓取！"
     ep = new EventProxy()
-    ep.after 'fetch_done', urls.length, ( (resultArr) ->
+    ep.after 'fetch_done', urls.length, (resultArr) =>
       _formatted = tools.formatMsgToString resultArr
       if @inited == false
         @inited = true
@@ -45,11 +45,9 @@ class RssWorker
         @persistence.update dist, _formatted.content
 
       if not @end
-        #替代setInterval防止并行任务组发生重叠
         setTimeout @fetchAll.bind(@), 1000 * timeout, urls, persistence, dist, timeout
       else
         console.log "【rss-worker】结束抓取！"
-    ).bind @
 
     for url in urls
       @fetchOne url, ep

@@ -28,7 +28,6 @@ describe 'test rss-worker', () ->
       done()
 
   it 'test mongodb', (done) ->
-
     opt =
       urls: ['http://127.0.0.1:3789']
       store:
