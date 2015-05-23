@@ -15,13 +15,7 @@ msg_tool.formatMsgToString = (resultArr) ->
     for item in msgArr
       output.push item
 
-  output.sort (msg1, msg2) ->
-    if msg1.date < msg2.date
-      return 1
-    else if msg1.date > msg2.date
-      return -1
-    else
-      return 0
+  output.sort (msg1, msg2) -> msg1.data - msg2.date
 
   for rss in output
     stringResult.content.push rss.content
