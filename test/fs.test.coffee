@@ -13,7 +13,7 @@ describe 'test rss-worker', () ->
     fs.removeSync path.join __dirname, '/store'
     http.createServer (req, res) ->
       res.writeHead 200, {'Content-Type': 'text/plain'}
-      if count == 0
+      if count is 0
         rss = fs.readFileSync path.join __dirname,'./rss_test/before.xml'
         count += 1
       else
@@ -21,8 +21,7 @@ describe 'test rss-worker', () ->
       res.end rss
     .listen 3788, '127.0.0.1'
 
-  after () ->
-    fs.removeSync path.join __dirname, '/store'
+  after () -> fs.removeSync path.join __dirname, '/store'
 
   it 'test fs', (done) ->
     _path = path.join __dirname, '/store/rss.txt'

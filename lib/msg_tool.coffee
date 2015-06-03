@@ -11,7 +11,7 @@ msg_tool.formatMsgToString = (resultArr) ->
     isUpdate: false
 
   for msgArr in resultArr
-    if msgArr.isUpdate == true then stringResult.isUpdate = true
+    if msgArr.isUpdate is true then stringResult.isUpdate = true
     output.push item for item in msgArr
 
   output.sort (msg1, msg2) -> msg1.data - msg2.date

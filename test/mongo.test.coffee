@@ -14,7 +14,7 @@ describe 'test rss-worker', () ->
   before () ->
     http.createServer (req, res) ->
       res.writeHead 200, {'Content-Type': 'text/plain'}
-      if count == 0
+      if count is 0
         rss = fs.readFileSync path.join __dirname,'./rss_test/before.xml'
         count += 1
       else
@@ -42,8 +42,7 @@ describe 'test rss-worker', () ->
       validation = () ->
         rss_worker.forceToEnd()
         Msg.find {}, (err, msgs) ->
-          if err
-            throw new Error err
+          if err then throw new Error err
           console.log "length : #{msgs.length}"
           msgs.should.have.length 30
           done()

@@ -14,9 +14,9 @@ mongodb =
 
 factory = {}
 factory.get = (type, url) ->
-  if type == 'fs'
+  if type is 'fs'
     return fs
-  else if type == 'mongodb'
+  else if type is 'mongodb'
     mongoose.connect url
     return mongodb
   else
