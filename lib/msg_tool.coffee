@@ -5,7 +5,7 @@ msg_tool = {}
 #@参数resultArr ：所有并行的爬虫任务所获取的结果数组
 #@返回 ：格式化好并排序好的结果字符串
 msg_tool.formatMsgToString = (resultArr) ->
-  output = [];
+  output = []
   stringResult =
     content: []
     isUpdate: false
