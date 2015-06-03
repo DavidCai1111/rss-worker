@@ -8,6 +8,5 @@ module.exports = (path, content) ->
 
   for msg in content
     Msg.create {msg: msg}, (err, msg) ->
-      if err
-        throw new Error err
+      if err then throw new Error err
       ep.emit 'update', msg

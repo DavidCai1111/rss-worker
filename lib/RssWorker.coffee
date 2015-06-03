@@ -13,16 +13,10 @@ moment.locale 'zh_cn'
 
 class RssWorker
   constructor: (@opt) ->
-    if !util.isArray @opt.urls || @opt.urls.length == 0
-      throw new Error '【rss-worker】urls必须为数组，且长度不能为0'
-    if @opt.timeout == undefined || typeof @opt.timeout != 'number' || @opt.timeout < 0
-      @opt.timeout = 60 #默认为60秒间隔
-    if @opt.store == undefined || (@opt.store.type != 'mongodb' && @opt.store.type != 'fs')
-      @opt.store = {}
-      @opt.store.type = 'fs' #默认存储方式为fs
-      @opt.store.dist = path.join 'store/rss.txt'
-    if @opt.store.type == 'fs'
-      @opt.store.dist = path.normalize @opt.store.dist
+    if !util.isArray @opt.urls or @opt.urls.length == 0 then throw new Error '【rss-worker】urls必须为数组，且长度不能为0'
+    if @opt.timeout == undefined or typeof @opt.timeout != 'number' or @opt.timeout < 0 then @opt.timeout = 60 #默认为60秒间隔
+    if @opt.store == undefined or (@opt.store.type != 'mongodb' and @opt.store.type != 'fs') then @opt.store = {type : 'fs', dist : path.join 'store/rss.txt'}
+    if @opt.store.type == 'fs' then @opt.store.dist = path.normalize @opt.store.dist
 
     @persistence = persistenceFactory.get @opt.store.type, @opt.store.dist
     @feedParser = null
@@ -49,8 +43,7 @@ class RssWorker
       else
         console.log "【rss-worker】结束抓取！"
 
-    for url in urls
-      @fetchOne url, ep
+    @fetchOne url, ep for url in urls
 
   fetchOne: (url, ep) ->
     timeStart = moment()
@@ -73,8 +66,7 @@ class RssWorker
 
     feedParser.on 'end', () ->
       console.log "【rss-worker】<#{url}> 完成了一次爬取，爬取的内容条数为#{fetchResult.length}，从#{timeStart.format 'YYYY年MMMMDoa h:mm:ss'} 到 #{moment().format 'YYYY年MMMMDoa h:mm:ss'},花费了#{(moment() - timeStart) / 1000}秒"
-      if fetchResult.length != 0
-        fetchResult.isUpdate = true
+      if fetchResult.length != 0 then fetchResult.isUpdate = true
       ep.emit 'fetch_done', fetchResult
 
   forceToEnd: () ->

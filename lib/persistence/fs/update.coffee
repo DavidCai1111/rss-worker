@@ -3,8 +3,7 @@ path = require 'path'
 
 module.exports = (filePath, content) ->
   outputContent = ""
-  for msg in content
-    outputContent += msg
+  outputContent += msg for msg in content
 
   fileDir = path.dirname filePath
   tmpFilePath = path.join fileDir, '/tmp.txt'

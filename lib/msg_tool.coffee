@@ -12,14 +12,10 @@ msg_tool.formatMsgToString = (resultArr) ->
 
   for msgArr in resultArr
     if msgArr.isUpdate == true then stringResult.isUpdate = true
-    for item in msgArr
-      output.push item
+    output.push item for item in msgArr
 
   output.sort (msg1, msg2) -> msg1.data - msg2.date
-
-  for rss in output
-    stringResult.content.push rss.content
-
+  stringResult.content.push rss.content for rss in output
   stringResult
 
 module.exports = msg_tool

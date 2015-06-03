@@ -4,13 +4,13 @@ fs_update = require './fs/update'
 mongo_save = require './mongo/save'
 mongo_update = require './mongo/update'
 
-fs = {}
-fs.save = fs_save
-fs.update = fs_update
+fs =
+  save: fs_save
+  update: fs_update
 
-mongodb = {}
-mongodb.save = mongo_save
-mongodb.update = mongo_update
+mongodb =
+  save: mongo_save,
+  update: mongo_update
 
 factory = {}
 factory.get = (type, url) ->
