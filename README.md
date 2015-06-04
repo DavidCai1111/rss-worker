@@ -15,7 +15,7 @@ npm install rss-worker --save
 源码：
 ```SHELL
 git clone git@github.com:DavidCai1993/rss-worker.git
-cd rss-worker && npm i && gulp #编译coffee的输出目录为./build
+cd rss-worker && npm i && coffee -c gulpfile.coffee && gulp #编译coffee的输出目录为./build
 ```
 
 ### 例子
